@@ -1,5 +1,11 @@
 # Azure Deployment Guide - Simple Approaches
 
+> **DEPRECATED (2026-04-09):** Primary deployment moved to tose.sh.
+> Canonical setup: `CLAUDE_REMOTE_SETUP.md`.
+> This guide retained pending host-consolidation decision — see
+> `plans/260409-1751-mcp-header-auth/plan.md` §Unresolved Questions.
+
+
 ## Method 1: Direct Git Deployment (Recommended - Simplest)
 
 This is the easiest method that avoids zip file issues entirely.

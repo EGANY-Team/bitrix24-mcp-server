@@ -1,5 +1,11 @@
 # Azure MCP Server Deployment: Practical Guide for Bitrix24 Integration
 
+> **DEPRECATED (2026-04-09):** Primary deployment moved to tose.sh.
+> Canonical setup: `CLAUDE_REMOTE_SETUP.md`.
+> This guide retained pending host-consolidation decision — see
+> `plans/260409-1751-mcp-header-auth/plan.md` §Unresolved Questions.
+
+
 This guide provides clear, actionable steps for deploying MCP (Model Context Protocol) servers on Azure, specifically focused on real-world scenarios like your Bitrix24 CRM integration.
 
 ## Table of Contents

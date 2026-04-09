@@ -135,6 +135,38 @@ LOG_LEVEL=info
 4. Copy the webhook URL (format: `https://domain.bitrix24.com/rest/USER_ID/WEBHOOK_CODE/`)
 5. Set appropriate permissions for CRM and Tasks
 
+## 🌐 Remote HTTP Transport (Streamable HTTP + Bearer Auth)
+
+For remote clients (GoClaw, browser agents, other MCP hosts) the server exposes
+a Streamable HTTP transport at `POST /mcp`, protected by a bearer token.
+
+### Environment
+
+```env
+BITRIX24_WEBHOOK_URL=https://your-domain.bitrix24.com/rest/USER_ID/WEBHOOK_CODE/
+PORT=3000
+MCP_API_KEY=   # generate with: openssl rand -base64 32
+```
+
+The HTTP server **refuses to start** if `MCP_API_KEY` is unset.
+
+### Run
+
+```bash
+npm run build
+npm run start:http   # node build/http-server.js
+```
+
+### Endpoints
+
+| Endpoint | Method | Auth |
+|---|---|---|
+| `/health` | GET  | public |
+| `/mcp`    | POST | `Authorization: Bearer <MCP_API_KEY>` (or `x-api-key`) |
+
+Full client configuration (GoClaw, curl smoke tests, key rotation) is in
+[`CLAUDE_REMOTE_SETUP.md`](./CLAUDE_REMOTE_SETUP.md).
+
 ## 🔧 Claude Desktop Integration
 
 Add the following to your Claude Desktop configuration file:

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "description": "Bitrix24 MCP Server for AI Agent Integration",
-  "main": "server.js",
+  "main": "build/http-server.js",
   "bin": {
     "bitrix24-mcp": "./build/index.js"
   },
@@ -12,27 +12,39 @@
     "build": "tsc",
     "build:unix": "tsc && chmod +x build/index.js",
     "dev": "tsc --watch",
-    "start": "node server.js",
+    "start": "node build/http-server.js",
+    "start:http": "node build/http-server.js",
+    "start:stdio": "node build/index.js",
     "test": "node test/integration.test.js",
     "postinstall": "node -e \"try { require('child_process').execSync('npm run build', {stdio: 'inherit'}); } catch(e) { console.log('Build failed, but continuing...'); }\"",
-    "azure:start": "node server.js"
+    "azure:start": "node build/http-server.js"
   },
   "engines": {
     "node": ">=18.0.0",
     "npm": ">=8.0.0"
   },
-  "files": ["build"],
+  "files": [
+    "build"
+  ],
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^0.4.0",
-    "zod": "^3.22.4",
+    "@modelcontextprotocol/sdk": "^1.10.0",
+    "express": "^4.22.1",
     "node-fetch": "^3.3.2",
-    "typescript": "^5.3.0"
+    "typescript": "^5.3.0",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@types/express": "^4.17.25",
     "@types/node": "^20.10.0",
     "@types/node-fetch": "^2.6.9"
   },
-  "keywords": ["mcp", "bitrix24", "crm", "ai", "automation"],
+  "keywords": [
+    "mcp",
+    "bitrix24",
+    "crm",
+    "ai",
+    "automation"
+  ],
   "author": "Your Name",
   "license": "MIT"
 }
