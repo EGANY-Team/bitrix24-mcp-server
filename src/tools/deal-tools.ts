@@ -10,7 +10,7 @@ export const dealTools: Tool[] = [
       properties: {
         title: { type: 'string', description: 'Deal title' },
         amount: { type: 'string', description: 'Deal amount' },
-        currency: { type: 'string', description: 'Currency code (e.g., EUR, USD)', default: 'EUR' },
+        currency: { type: 'string', description: 'Currency code (e.g., EUR, USD)', default: 'VND' },
         contactId: { type: 'string', description: 'Associated contact ID' },
         companyId: { type: 'string', description: 'Associated company ID' },
         stageId: { type: 'string', description: 'Deal stage ID' },
@@ -93,7 +93,7 @@ export async function handleDealTool(name: string, args: any): Promise<any> {
       const deal: BitrixDeal = {
         TITLE: args.title,
         OPPORTUNITY: args.amount,
-        CURRENCY_ID: args.currency || 'EUR',
+        CURRENCY_ID: args.currency || 'VND',
         CONTACT_ID: args.contactId,
         COMPANY_ID: args.companyId,
         STAGE_ID: args.stageId,
