@@ -1,4 +1,4 @@
-<!-- Next Session: 4 | Next Task: 9 -->
+<!-- Next Session: 6 | Next Task: 12 -->
 
 # Task Log — bitrix24-mcp-server
 
@@ -59,6 +59,36 @@
 - **Spend:** ~6 min
 - **Context:** Added two native MCP tools for activity creation and update. Added public `createActivity`/`updateActivity` methods to `Bitrix24Client` (makeRequest is private). Both tools registered in allTools array and switch cases. Build passes.
 - **Status:** done
+
+---
+
+---
+
+## Session 4 — 2026-04-13 (11:33–11:55)
+
+### Task 9 — Brainstorm: what API this MCP can do + lean toolset for AI agent
+- **Time:** 11:33–11:45
+- **Spend:** ~12 min
+- **Context:** Audited full MCP toolset vs Bitrix24 Basic Plan capabilities. Found 6 of 10 monitoring tools are stubs (return "implementation in progress"). Agreed to remove leads (not on Basic Plan), remove stubs, remove redundant convenience tools (getLatest*, dateRange*, filterDealsBy*, *WithUserNames), remove dev/debug tools. Keep 4 real monitoring tools (strip lead-dependent options). Add delete ops + getCRMStatuses + listActivities. Final lean set: ~27 tools for AI agent use.
+- **Status:** done
+
+### Task 10 — Plan: Bitrix24 MCP refactor (modularize + lean toolset)
+- **Time:** 11:45–11:55
+- **Spend:** ~10 min
+- **Context:** Created 3-phase implementation plan to split 1644-line tools/index.ts and 1423-line client.ts into per-entity modules, remove all lead code, remove redundant tools, add 5 new tools. Plan at `plans/260413-1133-bitrix24-mcp-refactor/`.
+- **Status:** done
+
+---
+
+---
+
+## Session 5 — 2026-04-13 (11:49–)
+
+### Task 11 — Implement: Bitrix24 MCP refactor (modularize + lean toolset)
+- **Time:** 11:49–
+- **Spend:** —
+- **Context:** Executing 3-phase refactor plan. Splitting 1423-line client.ts and 1644-line tools/index.ts into per-entity modules. Removing all lead code + redundant/stub tools. Adding delete ops, getCRMStatuses, listActivities. Target: ~33 tools (plan said 27 but breakdown adds to 33).
+- **Status:** done — build passes, 33 tools exported (plan said 27 but breakdown adds to 33), zero lead code in src, all files <250L except monitoring-client.ts (349L, acceptable per plan notes)
 
 ---
 
