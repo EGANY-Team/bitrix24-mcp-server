@@ -1404,6 +1404,20 @@ export class Bitrix24Client {
     // Implementation for performance forecasting
     return { message: 'Performance forecasting - implementation in progress' };
   }
+
+  async addTimelineComment(entityId: number, entityType: string, comment: string): Promise<any> {
+    return await this.makeRequest('crm.timeline.comment.add', {
+      fields: { ENTITY_ID: entityId, ENTITY_TYPE: entityType, COMMENT: comment }
+    });
+  }
+
+  async createActivity(fields: Record<string, any>): Promise<any> {
+    return await this.makeRequest('crm.activity.add', { fields });
+  }
+
+  async updateActivity(id: number, fields: Record<string, any>): Promise<any> {
+    return await this.makeRequest('crm.activity.update', { id, fields });
+  }
 }
 
 export const bitrix24Client = new Bitrix24Client();
