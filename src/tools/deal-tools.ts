@@ -12,7 +12,9 @@ export const dealTools: Tool[] = [
         amount: { type: 'string', description: 'Deal amount' },
         currency: { type: 'string', description: 'Currency code (e.g., EUR, USD)', default: 'EUR' },
         contactId: { type: 'string', description: 'Associated contact ID' },
+        companyId: { type: 'string', description: 'Associated company ID' },
         stageId: { type: 'string', description: 'Deal stage ID' },
+        assignedById: { type: 'string', description: 'Responsible user ID' },
         comments: { type: 'string', description: 'Deal comments' }
       },
       required: ['title']
@@ -51,7 +53,9 @@ export const dealTools: Tool[] = [
         amount: { type: 'string', description: 'Deal amount' },
         currency: { type: 'string', description: 'Currency code' },
         contactId: { type: 'string', description: 'Associated contact ID' },
+        companyId: { type: 'string', description: 'Associated company ID' },
         stageId: { type: 'string', description: 'Deal stage ID' },
+        assignedById: { type: 'string', description: 'Responsible user ID' },
         comments: { type: 'string', description: 'Deal comments' }
       },
       required: ['id']
@@ -91,7 +95,9 @@ export async function handleDealTool(name: string, args: any): Promise<any> {
         OPPORTUNITY: args.amount,
         CURRENCY_ID: args.currency || 'EUR',
         CONTACT_ID: args.contactId,
+        COMPANY_ID: args.companyId,
         STAGE_ID: args.stageId,
+        ASSIGNED_BY_ID: args.assignedById,
         COMMENTS: args.comments
       };
       const dealId = await bitrix24Client.createDeal(deal);
@@ -113,7 +119,9 @@ export async function handleDealTool(name: string, args: any): Promise<any> {
       if (args.amount) update.OPPORTUNITY = args.amount;
       if (args.currency) update.CURRENCY_ID = args.currency;
       if (args.contactId) update.CONTACT_ID = args.contactId;
+      if (args.companyId) update.COMPANY_ID = args.companyId;
       if (args.stageId) update.STAGE_ID = args.stageId;
+      if (args.assignedById) update.ASSIGNED_BY_ID = args.assignedById;
       if (args.comments) update.COMMENTS = args.comments;
       const updated = await bitrix24Client.updateDeal(args.id, update);
       return { success: true, updated, message: `Deal ${args.id} updated successfully` };

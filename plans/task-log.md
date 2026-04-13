@@ -1,4 +1,4 @@
-<!-- Next Session: 6 | Next Task: 12 -->
+<!-- Next Session: 7 | Next Task: 14 -->
 
 # Task Log — bitrix24-mcp-server
 
@@ -88,7 +88,25 @@
 - **Time:** 11:49–
 - **Spend:** —
 - **Context:** Executing 3-phase refactor plan. Splitting 1423-line client.ts and 1644-line tools/index.ts into per-entity modules. Removing all lead code + redundant/stub tools. Adding delete ops, getCRMStatuses, listActivities. Target: ~33 tools (plan said 27 but breakdown adds to 33).
-- **Status:** done — build passes, 33 tools exported (plan said 27 but breakdown adds to 33), zero lead code in src, all files <250L except monitoring-client.ts (349L, acceptable per plan notes)
+- **Status:** committed (`3af38ed`) — build passes, 33 tools exported, zero lead code in src, crm-ops skill updated + committed in goclaw-skills (`f7623b6`)
+
+---
+
+## Session 6 — 2026-04-13
+
+### Task 13 — Fix: add companyId + assignedById to create/update deal tools
+- **Time:** 15:21–15:30
+- **Spend:** ~9 min
+- **Context:** Agent was using company ID as contact ID when creating deals — `bitrix24_create_deal` had no `companyId` param so agent had no correct way to link a company. Added `companyId` and `assignedById` to both `bitrix24_create_deal` and `bitrix24_update_deal` tools. Build passes.
+- **Status:** committed
+
+---
+
+### Task 12 — Fix crm-ops-egany skill: deal creation, tạo task, Tú user ID
+- **Time:** session start–
+- **Spend:** —
+- **Context:** 3 agent skill bugs identified from real usage: (1) deal created with wrong customer — skill lacked dedup/contact-search step; (2) agent couldn't assign Tú — webhook has no `user` scope, ID was unknown; (3) agent drafted email instead of creating Bitrix24 task on "tạo task". Fixed all 3: added mandatory deal creation checklist to SKILL.md, added explicit "tạo task = bitrix24_create_task" rule, resolved Tú's ID = 30 from profile URL. Committed to goclaw-skills (`7a0852a`).
+- **Status:** committed (`7a0852a` in goclaw-skills)
 
 ---
 
