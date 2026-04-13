@@ -29,6 +29,9 @@ export interface BitrixDeal {
   ASSIGNED_BY_ID?: string;
   CREATED_BY_ID?: string;
   MODIFY_BY_ID?: string;
+  // Custom fields
+  UF_CRM_1771896709411?: string; // Deal description / Mô tả deal
+  [key: string]: any;            // Allow other UF_CRM_* custom fields
 }
 
 export interface BitrixTask {

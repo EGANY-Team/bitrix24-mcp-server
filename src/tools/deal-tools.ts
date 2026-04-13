@@ -15,7 +15,8 @@ export const dealTools: Tool[] = [
         companyId: { type: 'string', description: 'Associated company ID' },
         stageId: { type: 'string', description: 'Deal stage ID' },
         assignedById: { type: 'string', description: 'Responsible user ID' },
-        comments: { type: 'string', description: 'Deal comments' }
+        description: { type: 'string', description: 'Deal description / Mô tả deal (UF_CRM_1771896709411)' },
+        comments: { type: 'string', description: 'Deal internal comments' }
       },
       required: ['title']
     }
@@ -56,7 +57,8 @@ export const dealTools: Tool[] = [
         companyId: { type: 'string', description: 'Associated company ID' },
         stageId: { type: 'string', description: 'Deal stage ID' },
         assignedById: { type: 'string', description: 'Responsible user ID' },
-        comments: { type: 'string', description: 'Deal comments' }
+        description: { type: 'string', description: 'Deal description / Mô tả deal (UF_CRM_1771896709411)' },
+        comments: { type: 'string', description: 'Deal internal comments' }
       },
       required: ['id']
     }
@@ -98,6 +100,7 @@ export async function handleDealTool(name: string, args: any): Promise<any> {
         COMPANY_ID: args.companyId,
         STAGE_ID: args.stageId,
         ASSIGNED_BY_ID: args.assignedById,
+        UF_CRM_1771896709411: args.description,
         COMMENTS: args.comments
       };
       const dealId = await bitrix24Client.createDeal(deal);
@@ -122,6 +125,7 @@ export async function handleDealTool(name: string, args: any): Promise<any> {
       if (args.companyId) update.COMPANY_ID = args.companyId;
       if (args.stageId) update.STAGE_ID = args.stageId;
       if (args.assignedById) update.ASSIGNED_BY_ID = args.assignedById;
+      if (args.description) update.UF_CRM_1771896709411 = args.description;
       if (args.comments) update.COMMENTS = args.comments;
       const updated = await bitrix24Client.updateDeal(args.id, update);
       return { success: true, updated, message: `Deal ${args.id} updated successfully` };
