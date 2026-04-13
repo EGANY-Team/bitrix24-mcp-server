@@ -1,4 +1,4 @@
-<!-- Next Session: 7 | Next Task: 14 -->
+<!-- Next Session: 7 | Next Task: 19 -->
 
 # Task Log — bitrix24-mcp-server
 
@@ -89,6 +89,40 @@
 - **Spend:** —
 - **Context:** Executing 3-phase refactor plan. Splitting 1423-line client.ts and 1644-line tools/index.ts into per-entity modules. Removing all lead code + redundant/stub tools. Adding delete ops, getCRMStatuses, listActivities. Target: ~33 tools (plan said 27 but breakdown adds to 33).
 - **Status:** committed (`3af38ed`) — build passes, 33 tools exported, zero lead code in src, crm-ops skill updated + committed in goclaw-skills (`f7623b6`)
+
+---
+
+## Session 7 — 2026-04-13 (15:21–16:40)
+
+### Task 14 — Fix: default currency EUR → VND in create_deal
+- **Time:** 15:21–15:25
+- **Spend:** ~4 min
+- **Context:** Trace showed deal 320 created with EUR. Tool was defaulting to EUR, not VND. Fixed default in both schema and handler. Skill updated.
+- **Status:** committed (`02480d2`)
+
+### Task 15 — Fix: add companyId/assignedById missing from deal tools + skill rule for always passing assignedById
+- **Time:** 15:25–15:35
+- **Spend:** ~10 min
+- **Context:** Webhook owner = Như (user ID inferred ~1 or 24); omitting assignedById silently assigns deal to Như. Added rule to EGANY skill checklist: always pass assignedById explicitly. Also flagged Như as webhook owner in constants.
+- **Status:** committed (`45381c1` in goclaw-skills)
+
+### Task 16 — Fix: email sending forbidden + tạo task rule tightened
+- **Time:** 15:35–15:50
+- **Spend:** ~15 min
+- **Context:** Trace showed crm-ops agent tried to send email via GHL after being asked to create a task. Added explicit "Email sending — STRICTLY FORBIDDEN" section to SKILL.md. Tightened tạo task rule to explicitly list "send email" as prohibited interpretation.
+- **Status:** committed (`6d9ead6` in goclaw-skills)
+
+### Task 17 — Fix: deal title vs description split + add UF_CRM_1771896709411
+- **Time:** 15:50–16:28
+- **Spend:** ~38 min
+- **Context:** Agent concatenating deal code + description into TITLE. Two fixes: (1) skill rule added — title = code only, description = UF_CRM_1771896709411; (2) MCP server: added `description` param to create/update deal tools mapping to UF_CRM_1771896709411. Also added `[key: string]: any` index to BitrixDeal type for future custom fields.
+- **Status:** committed (`ae52135` MCP, `a899a80` goclaw-skills)
+
+### Task 18 — Diagnose trace 019d8636: deal created but Tú still wrong + title still concatenated
+- **Time:** 16:28–16:40
+- **Spend:** ~12 min
+- **Context:** Trace showed deal 320 created with VND ✅, task linked ✅, no email ✅. But: (1) assignedById=24 (Như) instead of 30 (Tú) — user confirmed they had to manually fix; (2) title still concatenated — new build not yet restarted; (3) description in COMMENTS not UF_CRM_1771896709411 — same reason. Root cause for Tú/Như confusion: crm-ops agent has hardcoded staff table in its own system prompt, separate from the crm-ops-egany skill. Needs to be fixed in agent platform directly.
+- **Status:** done (diagnosis only — agent system prompt fix is outside this repo)
 
 ---
 
