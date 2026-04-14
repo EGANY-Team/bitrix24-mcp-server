@@ -60,7 +60,8 @@ export const taskTools: Tool[] = [
         responsibleId: { type: 'string', description: 'Responsible user ID' },
         deadline: { type: 'string', description: 'Deadline in ISO-8601 format' },
         priority: { type: 'string', enum: ['0', '1', '2'], description: '0=Low, 1=Normal, 2=High' },
-        status: { type: 'string', enum: ['1', '2', '3', '4', '5'], description: '1=New, 2=Pending, 3=In Progress, 4=Completed, 5=Deferred' }
+        status: { type: 'string', enum: ['1', '2', '3', '4', '5'], description: '1=New, 2=Pending, 3=In Progress, 4=Completed, 5=Deferred' },
+        parentId: { type: 'string', description: 'Set parent task ID to make this task a subtask (use to re-parent existing tasks)' }
       },
       required: ['id']
     }
@@ -157,6 +158,7 @@ export async function handleTaskTool(name: string, args: any): Promise<any> {
       if (args.deadline) update.DEADLINE = args.deadline;
       if (args.priority) update.PRIORITY = args.priority;
       if (args.status) update.STATUS = args.status;
+      if (args.parentId) update.PARENT_ID = args.parentId;
       const updated = await bitrix24Client.updateTask(args.id, update);
       return { success: true, updated, message: `Task ${args.id} updated successfully` };
     }
