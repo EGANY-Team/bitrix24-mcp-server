@@ -17,7 +17,13 @@ export const taskTools: Tool[] = [
           type: 'array',
           items: { type: 'string' },
           description: 'CRM entities to link (e.g., ["D_123", "C_456"] for deal 123, contact 456)'
-        }
+        },
+        checklistItems: {
+          type: 'array',
+          items: { type: 'string' },
+          description: 'Checklist item titles to add to the task after creation'
+        },
+        parentId: { type: 'string', description: 'Parent task ID — makes this task a subtask of the specified task' }
       },
       required: ['title']
     }
@@ -58,6 +64,65 @@ export const taskTools: Tool[] = [
       },
       required: ['id']
     }
+  },
+  {
+    name: 'bitrix24_get_checklist',
+    description: 'Get all checklist items for a task',
+    inputSchema: {
+      type: 'object',
+      properties: { taskId: { type: 'string', description: 'Task ID' } },
+      required: ['taskId']
+    }
+  },
+  {
+    name: 'bitrix24_add_checklist_item',
+    description: 'Add a checklist item to an existing task',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        taskId: { type: 'string', description: 'Task ID' },
+        title: { type: 'string', description: 'Checklist item text' }
+      },
+      required: ['taskId', 'title']
+    }
+  },
+  {
+    name: 'bitrix24_update_checklist_item',
+    description: 'Update the text of a checklist item',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        taskId: { type: 'string', description: 'Task ID' },
+        itemId: { type: 'string', description: 'Checklist item ID' },
+        title: { type: 'string', description: 'New checklist item text' }
+      },
+      required: ['taskId', 'itemId', 'title']
+    }
+  },
+  {
+    name: 'bitrix24_complete_checklist_item',
+    description: 'Mark a checklist item as complete or incomplete',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        taskId: { type: 'string', description: 'Task ID' },
+        itemId: { type: 'string', description: 'Checklist item ID' },
+        complete: { type: 'boolean', description: 'true = mark done, false = mark undone', default: true }
+      },
+      required: ['taskId', 'itemId']
+    }
+  },
+  {
+    name: 'bitrix24_delete_checklist_item',
+    description: 'Delete a checklist item from a task',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        taskId: { type: 'string', description: 'Task ID' },
+        itemId: { type: 'string', description: 'Checklist item ID' }
+      },
+      required: ['taskId', 'itemId']
+    }
   }
 ];
 
@@ -70,9 +135,10 @@ export async function handleTaskTool(name: string, args: any): Promise<any> {
         RESPONSIBLE_ID: args.responsibleId,
         DEADLINE: args.deadline,
         PRIORITY: args.priority,
-        UF_CRM_TASK: args.crmEntities
+        UF_CRM_TASK: args.crmEntities,
+        PARENT_ID: args.parentId
       };
-      const taskId = await bitrix24Client.createTask(task);
+      const taskId = await bitrix24Client.createTask(task, args.checklistItems);
       return { success: true, taskId, message: `Task created with ID: ${taskId}` };
     }
     case 'bitrix24_get_task': {
@@ -93,6 +159,27 @@ export async function handleTaskTool(name: string, args: any): Promise<any> {
       if (args.status) update.STATUS = args.status;
       const updated = await bitrix24Client.updateTask(args.id, update);
       return { success: true, updated, message: `Task ${args.id} updated successfully` };
+    }
+    case 'bitrix24_get_checklist': {
+      const items = await bitrix24Client.getChecklist(args.taskId);
+      return { success: true, items };
+    }
+    case 'bitrix24_add_checklist_item': {
+      const itemId = await bitrix24Client.addChecklistItem(args.taskId, args.title);
+      return { success: true, itemId, message: `Checklist item added with ID: ${itemId}` };
+    }
+    case 'bitrix24_update_checklist_item': {
+      await bitrix24Client.updateChecklistItem(args.taskId, args.itemId, args.title);
+      return { success: true, message: `Checklist item ${args.itemId} updated` };
+    }
+    case 'bitrix24_complete_checklist_item': {
+      await bitrix24Client.completeChecklistItem(args.taskId, args.itemId, args.complete ?? true);
+      const state = (args.complete ?? true) ? 'completed' : 'renewed';
+      return { success: true, message: `Checklist item ${args.itemId} ${state}` };
+    }
+    case 'bitrix24_delete_checklist_item': {
+      await bitrix24Client.deleteChecklistItem(args.taskId, args.itemId);
+      return { success: true, message: `Checklist item ${args.itemId} deleted` };
     }
     default:
       return undefined;

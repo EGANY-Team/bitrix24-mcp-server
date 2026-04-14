@@ -54,10 +54,15 @@ export class Bitrix24Client {
   deleteCompany(id: string) { return this.companies.deleteCompany(id); }
 
   // Tasks
-  createTask(t: any) { return this.tasks.createTask(t); }
+  createTask(t: any, checklistItems?: string[]) { return this.tasks.createTask(t, checklistItems); }
   getTask(id: string) { return this.tasks.getTask(id); }
   updateTask(id: string, t: any) { return this.tasks.updateTask(id, t); }
   listTasks(p?: any) { return this.tasks.listTasks(p); }
+  getChecklist(taskId: string) { return this.tasks.getChecklist(taskId); }
+  addChecklistItem(taskId: string, title: string) { return this.tasks.addChecklistItem(taskId, title); }
+  updateChecklistItem(taskId: string, itemId: string, title: string) { return this.tasks.updateChecklistItem(taskId, itemId, title); }
+  completeChecklistItem(taskId: string, itemId: string, complete: boolean) { return this.tasks.completeChecklistItem(taskId, itemId, complete); }
+  deleteChecklistItem(taskId: string, itemId: string) { return this.tasks.deleteChecklistItem(taskId, itemId); }
 
   // Users
   getCurrentUser() { return this.users.getCurrentUser(); }

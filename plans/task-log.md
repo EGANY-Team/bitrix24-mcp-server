@@ -1,4 +1,4 @@
-<!-- Next Session: 7 | Next Task: 19 -->
+<!-- Next Session: 8 | Next Task: 19 -->
 
 # Task Log — bitrix24-mcp-server
 
@@ -141,6 +141,22 @@
 - **Spend:** —
 - **Context:** 3 agent skill bugs identified from real usage: (1) deal created with wrong customer — skill lacked dedup/contact-search step; (2) agent couldn't assign Tú — webhook has no `user` scope, ID was unknown; (3) agent drafted email instead of creating Bitrix24 task on "tạo task". Fixed all 3: added mandatory deal creation checklist to SKILL.md, added explicit "tạo task = bitrix24_create_task" rule, resolved Tú's ID = 30 from profile URL. Committed to goclaw-skills (`7a0852a`).
 - **Status:** committed (`7a0852a` in goclaw-skills)
+
+---
+
+## Session 7 — 2026-04-14
+
+### Task 19 — Add checklist support to task tools (Option C)
+- **Time:** 16:34–16:50
+- **Spend:** ~16 min
+- **Context:** MCP had no way to create or manage task checklists. Added `checklistItems[]` param to `bitrix24_create_task` (bulk-add on creation) + 5 new tools: `bitrix24_get_checklist`, `bitrix24_add_checklist_item`, `bitrix24_update_checklist_item`, `bitrix24_complete_checklist_item`, `bitrix24_delete_checklist_item`. Maps to Bitrix24 `task.checklistitem.*` REST API family. Includes guard on task creation response and partial-failure surfacing for bulk add.
+- **Status:** done
+
+### Task 20 — Add parentId support to create_task (subtask creation)
+- **Time:** 16:46–16:48
+- **Spend:** ~2 min
+- **Context:** Agent couldn't create proper parent→subtask hierarchy — MCP had no `PARENT_ID` param. Added optional `parentId` to `bitrix24_create_task` tool. Agent can now create 1 parent task then N subtasks with `parentId` set, building the correct native Bitrix24 structure.
+- **Status:** done
 
 ---
 

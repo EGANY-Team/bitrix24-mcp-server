@@ -34,6 +34,14 @@ export interface BitrixDeal {
   [key: string]: any;            // Allow other UF_CRM_* custom fields
 }
 
+export interface BitrixChecklistItem {
+  ID?: string;
+  TASK_ID?: string;
+  TITLE?: string;
+  IS_COMPLETE?: 'Y' | 'N';
+  SORT_INDEX?: number;
+}
+
 export interface BitrixTask {
   ID?: string;
   TITLE?: string;
@@ -44,6 +52,7 @@ export interface BitrixTask {
   STATUS?: '1' | '2' | '3' | '4' | '5'; // 1=New, 2=Pending, 3=In Progress, 4=Completed, 5=Deferred
   STAGE?: string;
   UF_CRM_TASK?: string[]; // CRM entities linked to task
+  PARENT_ID?: string;    // Parent task ID for subtasks
 }
 
 export interface BitrixCompany {
