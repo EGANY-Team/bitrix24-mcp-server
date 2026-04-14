@@ -158,6 +158,12 @@
 - **Context:** Agent couldn't create proper parent→subtask hierarchy — MCP had no `PARENT_ID` param. Added optional `parentId` to `bitrix24_create_task` tool. Agent can now create 1 parent task then N subtasks with `parentId` set, building the correct native Bitrix24 structure.
 - **Status:** done
 
+### Task 21 — Update crm-ops + crm-ops-egany skills with checklist/subtask docs
+- **Time:** 16:48–16:52
+- **Spend:** ~4 min
+- **Context:** New MCP tools (checklist CRUD + parentId) wouldn't be used by agents unless skills documented them. Updated `crm-ops/references/tasks.md` with all new tool signatures, PARENT_ID field, subtask workflow pattern, and checklist vs subtask decision table. Added `crm-ops-egany/SKILL.md` Vietnamese workflow section for task cha → subtask creation.
+- **Status:** done
+
 ---
 
 ## Next steps / open items
