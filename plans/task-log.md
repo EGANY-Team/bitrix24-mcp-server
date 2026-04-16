@@ -1,4 +1,4 @@
-<!-- Next Session: 8 | Next Task: 19 -->
+<!-- Next Session: 10 | Next Task: 24 -->
 
 # Task Log — bitrix24-mcp-server
 
@@ -163,6 +163,26 @@
 - **Spend:** ~4 min
 - **Context:** New MCP tools (checklist CRUD + parentId) wouldn't be used by agents unless skills documented them. Updated `crm-ops/references/tasks.md` with all new tool signatures, PARENT_ID field, subtask workflow pattern, and checklist vs subtask decision table. Added `crm-ops-egany/SKILL.md` Vietnamese workflow section for task cha → subtask creation.
 - **Status:** done
+
+---
+
+## Session 8 — 2026-04-16 (14:54–)
+
+### Task 22 — Brainstorm: name card / customer info intake skill
+- **Time:** 14:54–15:10
+- **Spend:** ~16 min
+- **Context:** User wants to update crm-ops skill to handle inbound customer info (name card images, customer details). Workflow: extract info → save contact → assign staff follow-up (activity reminder) → ask smart questions for next action. Agreed: skill-only update to crm-ops-egany, default assignee Quỳnh (ID 1), +1 business day deadline, dedup with user confirmation. Corrected staff IDs.
+- **Status:** done
+
+---
+
+## Session 9 — 2026-04-16 (15:17–)
+
+### Task 23 — Implement Customer Intake Workflow for crm-ops-egany
+- **Time:** 15:17–15:22
+- **Spend:** ~5 min
+- **Context:** Auto mode implementation of plan 260416-1454. Fix staff IDs (Quỳnh=1 as webhook owner) + add customer intake workflow (name card OCR → dedup → create contact → activity → smart questions). Added ownerTypeId/activityTypeId reference tables, website field. Code review 8/10.
+- **Status:** committed (`266bace` bitrix24-mcp-server, `4c9d7d7` goclaw-skills)
 
 ---
 
