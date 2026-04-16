@@ -6,8 +6,10 @@ import { TaskClient } from './task-client.js';
 import { UserClient } from './user-client.js';
 import { ActivityClient } from './activity-client.js';
 import { MonitoringClient } from './monitoring-client.js';
+import { SmartItemClient, SmartItemFields } from './smart-item-client.js';
 
 export type { BitrixContact, BitrixDeal, BitrixTask, BitrixCompany } from './types.js';
+export type { SmartItemFields } from './smart-item-client.js';
 
 export class Bitrix24Client {
   private base: BaseBitrixClient;
@@ -18,6 +20,7 @@ export class Bitrix24Client {
   private users: UserClient;
   private activities: ActivityClient;
   private monitoring: MonitoringClient;
+  private smartItems: SmartItemClient;
 
   constructor() {
     this.base = new BaseBitrixClient();
@@ -28,6 +31,7 @@ export class Bitrix24Client {
     this.users = new UserClient(this.base);
     this.activities = new ActivityClient(this.base);
     this.monitoring = new MonitoringClient(this.base);
+    this.smartItems = new SmartItemClient(this.base);
   }
 
   // Contacts
@@ -90,6 +94,23 @@ export class Bitrix24Client {
   }
   compareUserPerformance(userIds?: string[], startDate?: string, endDate?: string, options?: any) {
     return this.monitoring.compareUserPerformance(userIds, startDate, endDate, options);
+  }
+
+  // Smart Items (SPA - invoices, etc.)
+  createSmartItem(entityTypeId: number, fields: SmartItemFields) {
+    return this.smartItems.createSmartItem(entityTypeId, fields);
+  }
+  getSmartItem(entityTypeId: number, id: number) {
+    return this.smartItems.getSmartItem(entityTypeId, id);
+  }
+  listSmartItems(entityTypeId: number, options?: any) {
+    return this.smartItems.listSmartItems(entityTypeId, options);
+  }
+  updateSmartItem(entityTypeId: number, id: number, fields: Partial<SmartItemFields>) {
+    return this.smartItems.updateSmartItem(entityTypeId, id, fields);
+  }
+  deleteSmartItem(entityTypeId: number, id: number) {
+    return this.smartItems.deleteSmartItem(entityTypeId, id);
   }
 }
 

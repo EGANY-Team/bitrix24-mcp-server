@@ -7,6 +7,7 @@ import { activityTools, handleActivityTool } from './activity-tools.js';
 import { userTools, handleUserTool } from './user-tools.js';
 import { utilityTools, handleUtilityTool } from './utility-tools.js';
 import { monitoringTools, handleMonitoringTool } from './monitoring-tools.js';
+import { smartItemTools, handleSmartItemTool } from './smart-item-tools.js';
 
 export const allTools: Tool[] = [
   ...contactTools,    // 5
@@ -16,7 +17,8 @@ export const allTools: Tool[] = [
   ...activityTools,   // 4
   ...userTools,       // 2
   ...utilityTools,    // 2
-  ...monitoringTools  // 4
+  ...monitoringTools, // 4
+  ...smartItemTools   // 5
 ];
 
 const handlers = [
@@ -27,7 +29,8 @@ const handlers = [
   handleActivityTool,
   handleUserTool,
   handleUtilityTool,
-  handleMonitoringTool
+  handleMonitoringTool,
+  handleSmartItemTool
 ];
 
 export async function executeToolCall(name: string, args: any): Promise<any> {

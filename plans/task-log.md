@@ -1,4 +1,4 @@
-<!-- Next Session: 10 | Next Task: 24 -->
+<!-- Next Session: 10 | Next Task: 25 -->
 
 # Task Log — bitrix24-mcp-server
 
@@ -184,11 +184,17 @@
 - **Context:** Auto mode implementation of plan 260416-1454. Fix staff IDs (Quỳnh=1 as webhook owner) + add customer intake workflow (name card OCR → dedup → create contact → activity → smart questions). Added ownerTypeId/activityTypeId reference tables, website field. Code review 8/10.
 - **Status:** committed (`266bace` bitrix24-mcp-server, `4c9d7d7` goclaw-skills)
 
+### Task 24 — Add Smart Item tools for invoice creation
+- **Time:** 15:51–16:15
+- **Spend:** ~24 min
+- **Context:** Doanh Doanh couldn't create invoices (phiếu thu) - MCP lacked crm.item.* tools. Added 5 new tools: create/get/list/update/delete smart items. Fixed type consistency (string IDs). Test pass, code review 7.5→fixed.
+- **Status:** committed (`b572ab5`)
+
 ---
 
 ## Next steps / open items
 
-- **MCP server gap:** native tools missing for `bitrix24_find_user`, `bitrix24_log_activity`, `bitrix24_create_task`, `bitrix24_add_timeline_comment`, `bitrix24_create_invoice` (SPA). Without these, skill workflows fall back to in-process `makeRequest` — doesn't work for remote MCP clients. Proposed PR: ~10 new tools, ~300 lines glue code, one PR.
+- **MCP server gap:** native tools missing for `bitrix24_find_user`, `bitrix24_log_activity`. ~~`bitrix24_create_invoice`~~ ✅ Added via smart-item-tools. Proposed: add user search tool for staff lookup.
 - **EGANY unknowns to confirm** (tagged in skill files):
   1. Initial `DT31_2:*` stage code for new invoices
   2. Deal→invoice link field (`parentId2` vs custom `UF_CRM_*`)
