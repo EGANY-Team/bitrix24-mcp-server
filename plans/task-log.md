@@ -1,4 +1,4 @@
-<!-- Next Session: 10 | Next Task: 25 -->
+<!-- Next Session: 11 | Next Task: 27 -->
 
 # Task Log — bitrix24-mcp-server
 
@@ -189,6 +189,22 @@
 - **Spend:** ~24 min
 - **Context:** Doanh Doanh couldn't create invoices (phiếu thu) - MCP lacked crm.item.* tools. Added 5 new tools: create/get/list/update/delete smart items. Fixed type consistency (string IDs). Test pass, code review 7.5→fixed.
 - **Status:** committed (`b572ab5`)
+
+### Task 25 — Update crm-ops-egany skill with native Smart Item tools
+- **Time:** 16:14–16:18
+- **Spend:** ~4 min
+- **Context:** Skill still referenced `makeRequest('crm.item.*')` workaround. Updated smart-invoices.md and installment-plans.md to use new native tools.
+- **Status:** committed (`676a4a2` goclaw-skills)
+
+---
+
+## Session 10 — 2026-04-27 (15:27–16:11)
+
+### Task 26 — Deploy MCP server to VPS + docs
+- **Time:** 15:27–16:11
+- **Spend:** ~44 min
+- **Context:** Deployed bitrix24-mcp-server to EGANY VPS (103.97.125.190:3001). Setup: Node 18 pre-installed, PM2, git clone from public repo. Issues resolved: .env not auto-loaded by PM2 (used ecosystem.config.cjs), port 3000 conflict with Docker (switched to 3001), ES module config file error (.cjs extension). Server running stable, tested via Claude Desktop MCP client. Created deployment guide docs.
+- **Status:** done
 
 ---
 
