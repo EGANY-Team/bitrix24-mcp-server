@@ -53,6 +53,7 @@ export interface BitrixTask {
   STAGE?: string;
   UF_CRM_TASK?: string[]; // CRM entities linked to task
   PARENT_ID?: string;    // Parent task ID for subtasks
+  GROUP_ID?: string;     // Workgroup ID
 }
 
 export interface BitrixCompany {

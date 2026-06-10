@@ -23,7 +23,8 @@ export const taskTools: Tool[] = [
           items: { type: 'string' },
           description: 'Checklist item titles to add to the task after creation'
         },
-        parentId: { type: 'string', description: 'Parent task ID — makes this task a subtask of the specified task' }
+        parentId: { type: 'string', description: 'Parent task ID — makes this task a subtask of the specified task' },
+        groupId: { type: 'string', description: 'Workgroup ID to assign task to' }
       },
       required: ['title']
     }
@@ -61,7 +62,8 @@ export const taskTools: Tool[] = [
         deadline: { type: 'string', description: 'Deadline in ISO-8601 format' },
         priority: { type: 'string', enum: ['0', '1', '2'], description: '0=Low, 1=Normal, 2=High' },
         status: { type: 'string', enum: ['1', '2', '3', '4', '5'], description: '1=New, 2=Pending, 3=In Progress, 4=Completed, 5=Deferred' },
-        parentId: { type: 'string', description: 'Set parent task ID to make this task a subtask (use to re-parent existing tasks)' }
+        parentId: { type: 'string', description: 'Set parent task ID to make this task a subtask (use to re-parent existing tasks)' },
+        groupId: { type: 'string', description: 'Workgroup ID to assign task to' }
       },
       required: ['id']
     }
@@ -137,7 +139,8 @@ export async function handleTaskTool(name: string, args: any): Promise<any> {
         DEADLINE: args.deadline,
         PRIORITY: args.priority,
         UF_CRM_TASK: args.crmEntities,
-        PARENT_ID: args.parentId
+        PARENT_ID: args.parentId,
+        GROUP_ID: args.groupId
       };
       const taskId = await bitrix24Client.createTask(task, args.checklistItems);
       return { success: true, taskId, message: `Task created with ID: ${taskId}` };
@@ -159,6 +162,7 @@ export async function handleTaskTool(name: string, args: any): Promise<any> {
       if (args.priority) update.PRIORITY = args.priority;
       if (args.status) update.STATUS = args.status;
       if (args.parentId) update.PARENT_ID = args.parentId;
+      if (args.groupId) update.GROUP_ID = args.groupId;
       const updated = await bitrix24Client.updateTask(args.id, update);
       return { success: true, updated, message: `Task ${args.id} updated successfully` };
     }
