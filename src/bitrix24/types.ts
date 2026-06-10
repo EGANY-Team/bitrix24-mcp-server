@@ -54,6 +54,7 @@ export interface BitrixTask {
   UF_CRM_TASK?: string[]; // CRM entities linked to task
   PARENT_ID?: string;    // Parent task ID for subtasks
   GROUP_ID?: string;     // Workgroup ID
+  AUDITORS?: string[];   // Observer user IDs
 }
 
 export interface BitrixCompany {

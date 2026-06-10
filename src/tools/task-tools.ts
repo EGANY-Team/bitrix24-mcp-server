@@ -24,7 +24,8 @@ export const taskTools: Tool[] = [
           description: 'Checklist item titles to add to the task after creation'
         },
         parentId: { type: 'string', description: 'Parent task ID — makes this task a subtask of the specified task' },
-        groupId: { type: 'string', description: 'Workgroup ID to assign task to' }
+        groupId: { type: 'string', description: 'Workgroup ID to assign task to' },
+        auditors: { type: 'array', items: { type: 'string' }, description: 'Observer user IDs who can watch task progress' }
       },
       required: ['title']
     }
@@ -45,6 +46,7 @@ export const taskTools: Tool[] = [
       type: 'object',
       properties: {
         filter: { type: 'object', description: 'Filter criteria (e.g., {"RESPONSIBLE_ID": "5"})' },
+        groupId: { type: 'string', description: 'Filter by workgroup ID' },
         limit: { type: 'number', description: 'Max tasks to return', default: 20 }
       }
     }
@@ -63,7 +65,8 @@ export const taskTools: Tool[] = [
         priority: { type: 'string', enum: ['0', '1', '2'], description: '0=Low, 1=Normal, 2=High' },
         status: { type: 'string', enum: ['1', '2', '3', '4', '5'], description: '1=New, 2=Pending, 3=In Progress, 4=Completed, 5=Deferred' },
         parentId: { type: 'string', description: 'Set parent task ID to make this task a subtask (use to re-parent existing tasks)' },
-        groupId: { type: 'string', description: 'Workgroup ID to assign task to' }
+        groupId: { type: 'string', description: 'Workgroup ID to assign task to' },
+        auditors: { type: 'array', items: { type: 'string' }, description: 'Observer user IDs who can watch task progress' }
       },
       required: ['id']
     }
@@ -140,7 +143,8 @@ export async function handleTaskTool(name: string, args: any): Promise<any> {
         PRIORITY: args.priority,
         UF_CRM_TASK: args.crmEntities,
         PARENT_ID: args.parentId,
-        GROUP_ID: args.groupId
+        GROUP_ID: args.groupId,
+        AUDITORS: args.auditors
       };
       const taskId = await bitrix24Client.createTask(task, args.checklistItems);
       return { success: true, taskId, message: `Task created with ID: ${taskId}` };
@@ -150,7 +154,9 @@ export async function handleTaskTool(name: string, args: any): Promise<any> {
       return { success: true, task };
     }
     case 'bitrix24_list_tasks': {
-      const tasks = await bitrix24Client.listTasks({ filter: args.filter });
+      const filter = { ...args.filter };
+      if (args.groupId) filter.GROUP_ID = args.groupId;
+      const tasks = await bitrix24Client.listTasks({ filter });
       return { success: true, tasks: tasks.slice(0, args.limit || 20) };
     }
     case 'bitrix24_update_task': {
@@ -163,6 +169,7 @@ export async function handleTaskTool(name: string, args: any): Promise<any> {
       if (args.status) update.STATUS = args.status;
       if (args.parentId) update.PARENT_ID = args.parentId;
       if (args.groupId) update.GROUP_ID = args.groupId;
+      if (args.auditors) update.AUDITORS = args.auditors;
       const updated = await bitrix24Client.updateTask(args.id, update);
       return { success: true, updated, message: `Task ${args.id} updated successfully` };
     }
